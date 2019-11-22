@@ -7,6 +7,10 @@ class Room:
         self.name = name
         self.description = description
         self.items = items
+
+
+    # def __str__ for naming room
+    
         # self.n_to = None
         # self.s_to = None
         # self.w_to = None

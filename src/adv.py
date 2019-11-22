@@ -10,7 +10,7 @@ room = {
                      "North of you, the cave mount beckons"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east.""", [Food('banana', 'is a bit bruised', 20), Gold(100)],
+passages run north and east.""", [Food('banana', 'is a bit bruised', 20), Gold(100)]),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
@@ -20,8 +20,8 @@ the distance, but there is no way across the chasm."""),
 to north. The smell of gold permeates the air."""),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+chamber! Too bad grasshopper, it has already been completely emptied by
+earlier adventurers. The only exit is to the south.""", [Gold(1000000)])
 }
 
 
@@ -40,45 +40,58 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
-def tryDirection(d, curRoom):
+def tryDirection(d, curr_room):
     # Try to move a direction or print an error if the player cant go that way. Returns the room the player has moved to (or the same room if the player didnt move)
 
-attrib = d + '_to'
+    attrib = d + '_to'
 
-if hasattr(cur_room, attrib):
-    return getattr(cur_room, attrib)
 
-print("You cant go that way")
+    if hasattr(curr_room, attrib):
 
-return cur_room
+        return getattr(curr_room, attrib) 
+
+    print("You cant go that way")
+
+    return curr_room
 
 # Make a new player object that is currently in the 'outside' room.
 player = Player("Jordan", room["outside"])
-# print(new_player)
-
+print(f'Welcome to the Matrix of Python {player.name}!')
 
 done = False    
 
 while not done:
 
- print("\n{}\n".format(player.curr_room))
+# print the room name
+    print("You are currently located at: \n{}\n".format(player.curr_room.name))
 
- s = input("\nCommand>").strip().lower().split()
+# print the room description
+    print(player.curr_room.description)
 
- if len(s) !=1:
-     print("I dont understand that")
-     continue
+# print the room items
+    for item in player.curr_room.items:
+        print(item)
 
-if s[0] == "quit" or s[0] == "q":
-    done = True
+#user prompt
+    s = input("\nCommand>").strip().lower().split()
 
-elif s[0] in ["n", "s", "w", "e"]:
-    plaer.curRoom = tryDirection(s[0], player.curr_room)
+# User prompt
+    if len(s) !=1:
+        print("I dont understand that")
+        continue
 
-else:
-    print('Uknown command {}'.format(''.join(s)))
+     # Intransitive Verbs
 
-# Intransitive Verbs
+    if s[0] == "quit" or s[0] == "q":
+        print(f'Thanks for playing {player.name}!')
+        done = True
+
+    elif s[0] in ["n", "s", "w", "e"]:
+        player.curr_room = tryDirection(s[0], player.curr_room)
+
+    else:
+        print('Unknown command {}'.format(''.join(s)))
+
     
 # Write a loop that:
 #
@@ -95,9 +108,12 @@ else:
 
 #print the room items
 # for item in player.curr_room.items:
-    print(item)
+    # print(item)
 #     print(item.inspect()) - put in a str in room class
 
+
+
+##################### Possible another direction #####################
 # while True:
 #     print(f"\n Hey {new_player.name}! Your current location is {new_player.curr_room}")
 #     print("=======================")

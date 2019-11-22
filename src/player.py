@@ -7,13 +7,12 @@ class Player:
         self.curr_room = curr_room 
         self.inventory = []
         # self.health  = 100 ## will implement later
-        # self.inventory = [] ## will implement later
     
     # def input for custom name input?? 
 
     def add_item(self, item):
         self.inventory.append(item)
-
+        print(f'Well Done! {self.name} has picked up {self.inventory}!')
 
     def __str__(self):
         return f'{self.name} is in the {self.curr_room}'
@@ -21,3 +20,4 @@ class Player:
     # def change_location(self, new_location):
     #     self.new_location = new_location
 
+print(Player)
